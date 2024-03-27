@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql
+    command: '--default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci'
+    restart: always
+    environment:
+      MYSQL_DATABASE: projet
+      MYSQL_USER: projet
+      MYSQL_PASSWORD: projet
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  nuxt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    volumes:
+      - .:/src
+      - ./node_modules:/src/node_modules
+
+  # nuxt:
+  #   image: nuxtjs/nuxt
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./:/app
+  #   working_dir: /app
+  #   command: sh -c "npm install --include=dev && npm run dev"
