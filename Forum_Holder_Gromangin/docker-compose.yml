@@ -17,16 +17,15 @@ services:
     ports:
       - 8080:8080
 
-  nuxt:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-      - "24678:24678"
-    volumes:
-      - .:/src
-      - ./node_modules:/src/node_modules
+  # nuxt:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - .:/src
+  #     - ./node_modules:/src/node_modules
 
   # nuxt:
   #   image: nuxtjs/nuxt
