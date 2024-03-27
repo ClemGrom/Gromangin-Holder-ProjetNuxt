@@ -25,5 +25,10 @@ export default defineNuxtConfig({
     experimental: {
       websocket: true,
     },
+    esbuild: {
+      options: {
+        target: "esnext",
+      },
+    },
   },
 });
