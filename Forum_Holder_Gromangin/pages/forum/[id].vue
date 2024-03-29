@@ -3,6 +3,7 @@
         <h1>Sujets</h1>
         <p v-if="forum && forum.length > 0">Voici les sujets du forum: {{forum[0].name}}</p>
         <p v-else>Aucun forum trouvé</p>
+        <p>Nombre de Sujet {{ this.sujets.length }}</p>
         <v-list>
             <v-list-item v-for="sujet in sujets" :key="sujet.id">
                 <v-list-item-content>
@@ -19,17 +20,17 @@
 
 <script>
 
-const addFav = async (id) => {
-    const res = await fetch(`http://localhost:3000/api/fav`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id }),
-    })
-    const data = await res.json()
-    console.log(data)
-}
+// const addFav = async (id) => {
+//     const res = await fetch(`http://localhost:3000/api/fav`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ id }),
+//     })
+//     const data = await res.json()
+//     console.log(data)
+// }
 
 export default {
     data() {
@@ -57,10 +58,6 @@ export default {
             const data = await response.json();
             return data;
         }
-        
-
-    }
-
-    
+    }    
 };
 </script>
