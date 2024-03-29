@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>Forum</h1>
-    <p>Voici les messages du forum:</p>
+    <v-btn color="primary" @click="addForum">Bouton</v-btn>
+    <p>Voici tous les forums:</p>
     <v-list>
       <v-list-item v-for="forum in forums" :key="forum.id">
         <v-list-item-content>
@@ -29,6 +30,7 @@ export default {
         ...forum,
         created: forum.created.split('T')[0]
     }));
+    
 }
 };
 </script>
