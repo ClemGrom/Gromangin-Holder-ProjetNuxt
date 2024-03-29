@@ -7,7 +7,7 @@
             <v-list-item v-for="sujet in sujets" :key="sujet.id">
                 <v-list-item-content>
                     <v-list-item-title>
-                        <nuxt-link :to="`/sujet/${sujet.id}`">{{ sujet.name }}</nuxt-link>
+                        <nuxt-link :to="`/forum/sujet/${sujet.id}`">{{ sujet.name }}</nuxt-link>
                     </v-list-item-title>
                     <div>{{ sujet.created }}</div>
                 </v-list-item-content>

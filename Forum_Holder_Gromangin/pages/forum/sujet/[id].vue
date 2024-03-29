@@ -1,26 +1,51 @@
-<template>
-    <div>
+<script setup>
+let ws
 
-        <v-list>
-            <v-list-item v-for="message in data" :key="message.id">
-                <v-list-item-content>
-                    <nuxt-link :to="`/message/${message.id}`">{{ message.name }}</nuxt-link>
-                    <p>{{ message.created }}</p>
-                    <h1>{{ message.name }}</h1>
-                    <p>{{ message.date }}</p>
-                    <p>{{ message.content }}</p>
-                    <p>{{ message.date_modif }}</p>
-                </v-list-item-content>
-            </v-list-item>
-        </v-list>
-
-    </div>
-</template>
-<script>
-
-const fetchMessage = async (id) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    const data = await response.json();
-    return data;
+const messages = ref([])
+const truc = ref('')
+ 
+const connect = async () => {
+    // En HTTP, le protocole ws:// est utilisé. En HTTPS, il est nécessaire
+    // d'utiliser le protocole wss://.
+    const isSecure = location.protocol === "https:";
+    const url = (isSecure ? "wss://" : "ws://") + location.host +
+        "/_ws";
+    if (ws) {
+        // Déjà connecté, on ferme la connexion existante
+        ws.close();
+    }
+    // Connexion au serveur
+    console.log("Connexion à ", url, "...");
+    ws = new WebSocket(url);
+    // Ajout d'un listener pour être notifié lorsque le serveur
+    // nous envoie un message
+    ws.addEventListener("message", (event) => {
+        const message = event.data
+        console.log(message);
+        messages.value.push(message)
+    });
+    // On attend d'être connecté. L'objet WebSocket natif n'utilise
+    // pas les promesses, donc on triche un peu pour pouvoir utiliser
+    // await sur l'étape de connexion.
+    await new Promise((resolve) => ws.addEventListener("open",
+        resolve));
+    console.log("ws connecté!");
+};
+const ping = () => {
+    console.log("ws envoi ping");
+    ws.send("ping");
+};
+const addMsg = () => {
+    console.log(truc);
+    ws.send(truc)
 };
 </script>
+
+<template>
+    <div>Messages: {{ messages }}</div>
+    <button @click="connect">Connecter</button>
+    <button @click="ping">Ping</button>
+    <v-text-field v-model="truc" />
+    
+    <v-btn color="primary" @click="addMsg">Bouton</v-btn>
+</template>
