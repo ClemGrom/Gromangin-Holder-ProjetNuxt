@@ -12,6 +12,8 @@ services:
       MYSQL_USER: projet
       MYSQL_PASSWORD: projet
       MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./db/data.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
