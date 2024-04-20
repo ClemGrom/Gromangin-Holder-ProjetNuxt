@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@pinia/nuxt": "^0.5.1",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "mysql2": "^3.9.3",
     "nuxt": "^3.11.1",
     "nuxt-server-utils": "^0.0.7",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },

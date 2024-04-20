@@ -1,11 +1,7 @@
 <template>
     <div>
         <h1>Inscription</h1>
-        <form @submit.prevent="submitForm">
-            <div>
-                <label for="username">Nom d'utilisateur:</label>
-                <input type="text" id="username" v-model="username" required>
-            </div>
+        <form @submit.prevent="registerUser(email, password, passwordrepeat)">
             <div>
                 <label for="email">Email:</label>
                 <input type="email" id="email" v-model="email" required>
@@ -14,33 +10,27 @@
                 <label for="password">Mot de passe:</label>
                 <input type="password" id="password" v-model="password" required>
             </div>
+            <div>
+                <label for="passwordrepeat">Mot de passe répété:</label>
+                <input type="password" id="passwordrepeat" v-model="passwordrepeat" required>
+            </div>
             <button type="submit">S'inscrire</button>
         </form>
     </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            username: '',
-            email: '',
-            password: '',
-        };
-    },
-    methods: {
-        submitForm() {
-            
-            console.log('Nom d\'utilisateur:', this.username);
-            console.log('Email:', this.email);
-            console.log('Mot de passe:', this.password);
-        },
-    },
-};
+let email = "";
+let password = "";
+let passwordrepeat = "";
+import { useUserStore } from '../store/user';
+import { storeToRefs } from 'pinia';
+const userStore = useUserStore();
+const { registerUser } = userStore
 </script>
 
 <style scoped>
-div{
+div {
     margin: 0 auto;
     width: 50%;
     padding: 10px;
