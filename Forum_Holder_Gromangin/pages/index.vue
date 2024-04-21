@@ -1,10 +1,10 @@
 <template>
     <v-container>
         <input type="text" v-model="name" placeholder="Nom du forum" />
-    <v-btn color="primary" @click="addForum">AJouter un Forum</v-btn>
+    <v-btn color="indigo-darken-1 indigo-lighten-3" @click="addForum">AJouter un Forum</v-btn>
       <v-row justify="center">
         <v-col cols="12" >
-          <v-card class="pa-4" color="cyan-darken-3 lighten-5">
+          <v-card class="pa-4" color="indigo-darken-1 indigo-lighten-3">
             <v-card-title primary-title>
               <h3 class="headline mb-0">Forum</h3>
             </v-card-title>

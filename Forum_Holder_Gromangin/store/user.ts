@@ -19,7 +19,7 @@ export const useUserStore = defineStore("userStore", {
       }
       bcrypt.genSalt(10, function (err: any, salt: any) {
         bcrypt.hash(password, salt, async function (err: any, hash: any) {
-          await fetch("http://localhost:3000/register", {
+          await fetch("http://localhost:3000/api/users", {
             method: "POST",
             body: JSON.stringify({
               email: email,

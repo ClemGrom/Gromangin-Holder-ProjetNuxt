@@ -1,23 +1,31 @@
 <template>
-    <div>
-        <h1>Sujets</h1>
-        <p v-if="forum && forum.length > 0">Voici les sujets du forum: {{forum[0].name}}</p>
-        <p v-else>Aucun forum trouvé</p>
-        <p>Nombre de Sujet {{ this.sujets.length }}</p>
-        <v-list>
+    <v-container color="cyan-darken-3 lighten-5">
+      <v-row>
+        <v-col>
+          <h1 class="text-h4 mb-4">Sujets</h1>
+          <v-card class="pa-3 mb-4" v-if="forum && forum.length > 0">
+            <p>Voici les sujets du forum: {{forum[0].name}}</p>
+          </v-card>
+          <v-card class="pa-3 mb-4" v-else>
+            <p>Aucun forum trouvé</p>
+          </v-card>
+          <v-card class="pa-3 mb-4" color="cyan-darken-3 lighten-5">
+            <p>Nombre de Sujet {{ this.sujets.length }}</p>
+          </v-card>
+          <v-list>
             <v-list-item v-for="sujet in sujets" :key="sujet.id">
-                <v-list-item-content>
-                    <v-list-item-title>
-                        <nuxt-link :to="`/forum/sujet/${sujet.id}`">{{ sujet.name }}</nuxt-link>
-                    </v-list-item-title>
-                    <div>{{ sujet.created }}</div>
-                </v-list-item-content>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <nuxt-link :to="`/forum/sujet/${sujet.id}`">{{ sujet.name }}</nuxt-link>
+                </v-list-item-title>
+                <div>{{ sujet.created }}</div>
+              </v-list-item-content>
             </v-list-item>
-        </v-list>
-        
-    </div>
-</template>
-
+          </v-list>
+        </v-col>
+      </v-row>
+    </v-container>
+  </template>
 <script>
 
 // const addFav = async (id) => {
