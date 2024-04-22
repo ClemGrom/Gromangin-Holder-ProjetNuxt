@@ -5,18 +5,18 @@
     
 
     <v-app>
-      <v-toolbar title="Forum" color="indigo-darken-1 indigo-lighten-3 ">
-        <v-btn  text>
-  <NuxtLink to="/">Forum</NuxtLink>
+      <v-toolbar title="Forum" color="blue lighten-4">
+        <v-btn>
+  <NuxtLink to="/" class="boutonnav">Forum</NuxtLink>
 </v-btn>
-<v-btn  text>
-  <NuxtLink to="/sujets">Sujets</NuxtLink>
+<v-btn>
+  <NuxtLink to="/sujets" class="boutonnav">Sujets</NuxtLink>
 </v-btn>
-<v-btn  text>
-  <NuxtLink to="/inscription">Inscription</NuxtLink>
+<v-btn>
+  <NuxtLink to="/inscription" class="boutonnav">Inscription</NuxtLink>
 </v-btn>
-<v-btn text>
-  <NuxtLink to="/connexion">Connexion</NuxtLink>
+<v-btn>
+  <NuxtLink to="/connexion" class="boutonnav">Connexion</NuxtLink>
 </v-btn>
       </v-toolbar>
 
@@ -24,3 +24,11 @@
     </v-app>
   </NuxtLayout>
 </template>
+
+<style scoped>
+  .boutonnav {
+    text-decoration: none;
+    color: white;
+    
+  }
+</style>
