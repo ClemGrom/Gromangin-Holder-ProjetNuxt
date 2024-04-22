@@ -1,20 +1,21 @@
 <template>
     <v-container>
-        <input type="text" v-model="name" placeholder="Nom du forum" />
-    <v-btn color="indigo-darken-1 indigo-lighten-3" @click="addForum">AJouter un Forum</v-btn>
+       
       <v-row justify="center">
         <v-col cols="12" >
-          <v-card class="pa-4" color="indigo-darken-1 indigo-lighten-3">
+          <v-card class="pa-4" >
             <v-card-title primary-title>
-              <h3 class="headline mb-0">Forum</h3>
-            </v-card-title>
+    <h3 class="headline mb-0">Forum</h3>
+    <input type="text" v-model="name" placeholder="Nom du forum" style="background-color: white;" class="rounded px-2 mx-2" />
+    <v-btn color="blue-grey lighten-3" @click="addForum">AJouter un Forum</v-btn>
+  </v-card-title>
             <v-card-text  class="mx-auto">
               <p>Voici tous les forums:</p>
               <v-list class="rounded">
-                <v-list-item v-for="forum in forums" :key="forum.id">
+                <v-list-item v-for="forum in forums" :key="forum.id" >
                   <v-list-item-content class="d-flex">
-                    <nuxt-link :to="`/forum/${forum.id}`" >
-                      <v-list-item-title>
+                    <nuxt-link class="noundeline" :to="`/forum/${forum.id}`" >
+                      <v-list-item-title >
                         <h3>{{ forum.name }}</h3>
                         <p>Nombre de Sujet : {{forum.sujetCount}}</p>
                       </v-list-item-title>
@@ -105,3 +106,10 @@
 },
     };
     </script>
+
+<style scoped>
+.noundeline {
+  text-decoration: none;
+  color: black;
+}
+</style>
