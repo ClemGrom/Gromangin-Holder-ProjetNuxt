@@ -1,6 +1,8 @@
 <template>
   <input type="text" v-model="name" placeholder="Nom du sujet" />
-  <v-btn @click="addSujet">Ajouter un sujet</v-btn>
+  <input type="text" v-model="firstmsg" placeholder="Premier message" />
+  <v-btn @click="addSujetetMsg">Ajouter un sujet</v-btn>
+
     <div>
         <h1>Sujets</h1>
         <p v-if="forum && forum.length > 0">Voici les sujets du forum: {{forum[0].name}}</p>
@@ -16,7 +18,6 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-        
     </div>
 </template>
 <script>
@@ -26,6 +27,7 @@ export default {
       forum: null,
       sujets: [],
       name: '',
+      firstmsg: '',
       error: '',
     };
   },
@@ -54,6 +56,11 @@ export default {
         console.error('Erreur :', error);
       }
     },
+    async addSujetetMsg(){
+      this.addSujet();
+
+      this.addFirstmsg();
+    },
     async addSujet() {
       const forumId = this.$route.params.id;
       const sujetData = {
@@ -68,10 +75,33 @@ export default {
           },
           body: JSON.stringify(sujetData),
         });
-        if (!response.ok) {
-          throw new Error('Erreur lors de l\'ajout du sujet');
-        }
+       
         this.name = ''; 
+        this.loadForum();
+      } catch (error) {
+        this.error = 'Erreur lors de l\'ajout du sujet';
+        console.error('Erreur :', error);
+      }
+    },
+    async addFirstmsg () {
+      const forumId = this.$route.params.id;
+    
+        const messageData = {
+      user_id: '1',
+      content: this.firstmsg,
+      sujet_id: '1',
+    
+      };
+      try {
+        const response = await fetch(`http://localhost:3000/api/messages`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(messageData),
+        });
+       
+        this.firstmsg = ''; 
         this.loadForum();
       } catch (error) {
         this.error = 'Erreur lors de l\'ajout du sujet';
