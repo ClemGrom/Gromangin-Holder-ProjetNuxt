@@ -19,67 +19,65 @@
         
     </div>
 </template>
-
 <script>
-
-// const addFav = async (id) => {
-//     const res = await fetch(`http://localhost:3000/api/fav`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ id }),
-//     })
-//     const data = await res.json()
-//     console.log(data)
-// }
-
 export default {
-    data() {
-        return {
-            forum: null,
-            sujets: [],
-            name: '',
-        };
+  data() {
+    return {
+      forum: null,
+      sujets: [],
+      name: '',
+      error: '',
+    };
+  },
+  created() {
+    this.loadForum();
+  },
+  methods: {
+    async loadForum() {
+      const forumId = this.$route.params.id;
+      try {
+        const forumResponse = await fetch(`http://localhost:3000/api/forums?id=${forumId}`);
+        if (!forumResponse.ok) {
+          throw new Error('Erreur lors du chargement du forum');
+        }
+        const forumData = await forumResponse.json();
+        this.forum = forumData.forums;
+
+        const sujetsResponse = await fetch(`http://localhost:3000/api/sujets?forum_id=${forumId}`);
+        if (!sujetsResponse.ok) {
+          throw new Error('Erreur lors du chargement des sujets');
+        }
+        const sujetsData = await sujetsResponse.json();
+        this.sujets = sujetsData.sujets;
+      } catch (error) {
+        this.error = error.message;
+        console.error('Erreur :', error);
+      }
     },
-    async mounted() {
-        const data = await this.fetchForum(this.$route.params.id);
-        this.forum = data.forums;
-        const sujets = await this.fetchSujets(this.$route.params.id);
-        this.sujets = sujets.sujets;
+    async addSujet() {
+      const forumId = this.$route.params.id;
+      const sujetData = {
+        name: this.name,
+        forum_id: forumId,
+      };
+      try {
+        const response = await fetch(`http://localhost:3000/api/sujets?forum_id=${forumId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(sujetData),
+        });
+        if (!response.ok) {
+          throw new Error('Erreur lors de l\'ajout du sujet');
+        }
+        this.name = ''; 
+        this.loadForum();
+      } catch (error) {
+        this.error = 'Erreur lors de l\'ajout du sujet';
+        console.error('Erreur :', error);
+      }
     },
-    methods: {
-        async fetchForum(id) {
-            const response = await fetch(`http://localhost:3000/api/forums?id=${id}`);
-            const data = await response.json();
-            return data;
-        },
-        async fetchSujets(id) {
-            const response = await fetch(`http://localhost:3000/api/sujets?forum_id=${id}`);
-            const data = await response.json();
-            return data;
-        },
-        
-        async addSujet() {
-         const id = this.$route.params.id;
-            const sujetData = {
-                name: this.name,
-                forum_id: this.$route.params.id,
-                
-            };
-            try {
-                const response = await fetch(`http://localhost:3000/api/sujets?forum_id=${id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(sujetData),
-                });
-                
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        },
-    }    
+  },
 };
 </script>
