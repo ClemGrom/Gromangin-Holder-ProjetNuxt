@@ -1,14 +1,36 @@
 <template>
-    <div>
-      <div v-for="message in messages" :key="message.id">
-        
-        <p>{{ message.content}}</p>
-      </div>
+  <div>
+    <v-container>
+      <v-card
+      v-for="message in messages"
+      :key="message.id"
+      class=" p-4 mb-4" color="blue-lighten-5"
+    >
+    <div class="d-flex"><v-card-title>{{ message.author_id }}</v-card-title>
+      <v-card-text>{{ message.content }}</v-card-text>
+      <v-card-subtitle>{{ new Date(message.date).toLocaleDateString('fr-FR') }}</v-card-subtitle>
     </div>
-    <input v-model="content" type="text" placeholder="Votre message" />
-    <v-btn @click="addMessage">Envoyer</v-btn>
-  </template>
+    </v-card>
+    <div style="height: 60px;"></div> <!-- This div creates an empty space -->
+
+<div class="d-flex " style="position: fixed; width: 100%; max-width: inherit; bottom: 0; ">
+  <v-text-field
+    v-model="content"
+    
+    @keyup.enter="addMessage"
+    class="mr-2"
+    style="flex-grow: 1;"
+  ></v-text-field>
+
+  <v-btn color="primary" @click="addMessage">Envoyer</v-btn>
+</div>
+  </v-container>
+   
   
+    
+  </div>
+</template>
+
   <script>
   export default {
     data() {
@@ -23,7 +45,7 @@
     methods: {
       async loadMessages() {
         const sujetId = this.$route.params.id;
-        console.log(`Loading messages for sujet_id=${sujetId}`);
+        
         try {
           const response = await fetch(`http://localhost:3000/api/messages?sujet_id=${sujetId}`);
           if (!response.ok) {
@@ -55,8 +77,9 @@
           if (!response.ok) {
             throw new Error('Erreur lors de la création du message');
           }
-          this.content = ''; // Clear the content field after sending the message
-          await this.loadMessages(); // Reload the messages after adding a new one
+          this.content = ''; 
+          await this.loadMessages(); 
+          window.scrollTo(0, document.body.scrollHeight);
         } catch (error) {
           console.error('Error adding message:', error);
           this.error = error.message;
