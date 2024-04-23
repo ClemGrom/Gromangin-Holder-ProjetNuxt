@@ -1,9 +1,5 @@
 <template>
-
   <NuxtLayout>
-
-
-
     <v-app>
       <v-toolbar title="Forum" color="blue lighten-4">
         <v-btn>
@@ -16,7 +12,6 @@
           <NuxtLink to="/connexion" class="boutonnav">Connexion</NuxtLink>
         </v-btn>
       </v-toolbar>
-
       <NuxtPage />
     </v-app>
   </NuxtLayout>

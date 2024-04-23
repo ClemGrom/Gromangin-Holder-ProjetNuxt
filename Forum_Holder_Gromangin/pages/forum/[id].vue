@@ -2,7 +2,6 @@
   <input type="text" v-model="name" placeholder="Nom du sujet" />
   <input type="text" v-model="firstmsg" placeholder="Premier message" />
   <v-btn @click="addSujetetMsg">Ajouter un sujet</v-btn>
-
     <div>
         <h1>Sujets</h1>
         <p v-if="forum && forum.length > 0">Voici les sujets du forum: {{forum[0].name}}</p>
