@@ -6,7 +6,7 @@
           <v-card class="pa-4" >
             <v-card-title primary-title>
     <h3 class="headline mb-0">Forum</h3>
-    <input type="text" v-model="name" placeholder="Nom du forum" style="background-color: white;" class="rounded px-2 mx-2" />
+    <input type="text" v-model="name"  @keyup.enter="addForum" placeholder="Nom du forum" style="background-color: white;" class="rounded px-2 mx-2" />
     <v-btn color="blue-grey lighten-3" @click="addForum">AJouter un Forum</v-btn>
   </v-card-title>
             <v-card-text  class="mx-auto">
