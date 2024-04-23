@@ -56,10 +56,9 @@ export default {
         console.error('Erreur :', error);
       }
     },
-    async addSujetetMsg(){
-      this.addSujet();
-
-      this.addFirstmsg();
+    async addSujetetMsg() {
+      await this.addSujet();
+      await this.addFirstmsg();
     },
     async addSujet() {
       const forumId = this.$route.params.id;
@@ -75,22 +74,20 @@ export default {
           },
           body: JSON.stringify(sujetData),
         });
-       
-        this.name = ''; 
+        this.name = '';
         this.loadForum();
       } catch (error) {
         this.error = 'Erreur lors de l\'ajout du sujet';
         console.error('Erreur :', error);
       }
     },
-    async addFirstmsg () {
+    async addFirstmsg() {
       const forumId = this.$route.params.id;
-    
-        const messageData = {
-      user_id: '1',
-      content: this.firstmsg,
-      sujet_id: '1',
-    
+      const lastSujetId = await this.getLastSujetId();
+      const messageData = {
+        user_id: '1',
+        content: this.firstmsg,
+        sujet_id: parseInt(lastSujetId),
       };
       try {
         const response = await fetch(`http://localhost:3000/api/messages`, {
@@ -100,14 +97,31 @@ export default {
           },
           body: JSON.stringify(messageData),
         });
-       
-        this.firstmsg = ''; 
+        this.firstmsg = '';
         this.loadForum();
       } catch (error) {
+       
         this.error = 'Erreur lors de l\'ajout du sujet';
         console.error('Erreur :', error);
       }
     },
+    async getLastSujetId() {
+      const forumId = this.$route.params.id;
+      try {
+        const sujetsResponse = await fetch(`http://localhost:3000/api/sujets?forum_id=${forumId}`);
+        if (!sujetsResponse.ok) {
+          throw new Error('Erreur lors du chargement des sujets');
+        }
+        const sujetsData = await sujetsResponse.json();
+        const lastSujet = sujetsData.sujets[sujetsData.sujets.length - 1];
+        console.log(lastSujet.id);
+        return lastSujet.id;
+      } catch (error) {
+        this.error = 'Erreur lors de la récupération du dernier sujet';
+        console.error('Erreur :', error);
+      }
+    },
   },
+  
 };
 </script>
