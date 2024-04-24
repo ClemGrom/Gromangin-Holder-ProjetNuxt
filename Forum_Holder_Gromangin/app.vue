@@ -6,6 +6,10 @@
           <NuxtLink to="/" class="boutonnav">Forum</NuxtLink>
         </v-btn>
         <v-btn>
+          <NuxtLink to="/test" class="boutonnav">Test</NuxtLink>
+        </v-btn>
+      
+        <v-btn>
           <NuxtLink to="/inscription" class="boutonnav">Inscription</NuxtLink>
         </v-btn>
         <v-btn>
