@@ -1,7 +1,16 @@
 <template>
   <NuxtLayout>
     <v-app>
-      <v-toolbar title="Forum" color="blue lighten-4">
+      <v-toolbar color="light-blue-darken-3">
+    <v-img
+        src="@/assets/logo.png"
+        alt="Forum Logo"
+        max-width="50"
+        class="ml-3"
+        
+    ></v-img>
+    <v-toolbar-title><NuxtLink to="/" class="boutonnav">PEDDIT</NuxtLink></v-toolbar-title>
+
         <v-btn>
           <NuxtLink to="/" class="boutonnav">Forum</NuxtLink>
         </v-btn>
@@ -27,4 +36,5 @@
   color: white;
 
 }
+
 </style>
