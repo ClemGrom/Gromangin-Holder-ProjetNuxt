@@ -5,7 +5,8 @@ export default defineEventHandler(async (event) => {
   const myUrl = url.parse(event.path, true);
   const query = myUrl.query;
   const [rows] = await db.execute(
-    query.id ? "SELECT * FROM user WHERE id = ?" : "SELECT * FROM user",
+    query.email ? "SELECT * FROM user WHERE email = ?" : "SELECT * FROM user",
+    query.email ? [query.email] : []
   );
   return {
     users: rows,

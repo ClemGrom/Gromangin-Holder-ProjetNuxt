@@ -5,20 +5,10 @@
         <v-card>
           <v-card-title class="headline">Connexion</v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="submitForm">
-              <v-text-field
-                label="Nom d'utilisateur"
-                v-model="username"
-                required
-                autocomplete="username"
-              ></v-text-field>
-              <v-text-field
-                label="Mot de passe"
-                v-model="password"
-                type="password"
-                required
-                autocomplete="current-password"
-              ></v-text-field>
+            <v-form @submit.prevent="loginUser(email, password)">
+              <v-text-field label="Mail d'utilisateur" v-model="email" required autocomplete="mail"></v-text-field>
+              <v-text-field label="Mot de passe" v-model="password" type="password" required
+                autocomplete="current-password"></v-text-field>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" type="submit">Se connecter</v-btn>
@@ -32,25 +22,25 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useUserStore } from '../store/user';
 export default {
-    data() {
-        return {
-            username: '',
-            email: '',
-            password: '',
-        };
-    },
-    methods: {
-        submitForm() {
-            
-            console.log('Nom d\'utilisateur:', this.username);
-            console.log('Email:', this.email);
-            console.log('Mot de passe:', this.password);
-        },
-    },
+  setup() {
+    const email = ref("");
+    const password = ref("");
+    const userStore = useUserStore();
+
+    const loginUser = () => {
+      userStore.loginUser(email.value, password.value);
+    };
+
+    return {
+      email,
+      password,
+      loginUser
+    };
+  }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
