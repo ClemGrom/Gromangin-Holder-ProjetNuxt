@@ -2,7 +2,7 @@
   <div>
     <h1>Forum</h1>
     <v-btn color="primary" @click="addForum">Bouton</v-btn>
-    <p>Voici tous les forums:</p>
+    <h2>Voici tous les forums:</h2>
     <v-list>
       <v-list-item v-for="forum in forums" :key="forum.id">
         <v-list-item-content>
