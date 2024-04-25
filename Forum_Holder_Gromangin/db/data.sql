@@ -13,6 +13,12 @@ CREATE TABLE `forum` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+INSERT INTO `forum` (`id`, `name`, `created`) VALUES
+(1,	'Informatique',	'2024-04-25'),
+(2,	'Cuisine',	'2024-04-25'),
+(3,	'Foot',	'2024-04-25'),
+(4,	'Nature',	'2024-04-25'),
+(5,	'Cinema',	'2024-04-25');
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
@@ -40,6 +46,18 @@ CREATE TABLE `sujet` (
   CONSTRAINT `sujet_ibfk_1` FOREIGN KEY (`forum_id`) REFERENCES `forum` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+INSERT INTO `sujet` (`id`, `name`, `created`, `forum_id`, `is_open`) VALUES
+(1,	'Python',	'2024-04-25',	1,	1),
+(2,	'Java',	'2024-04-25',	1,	1),
+(3,	'C',	'2024-04-25',	1,	1),
+(4,	'Kebab',	'2024-04-25',	2,	1),
+(5,	'Pate',	'2024-04-25',	2,	1),
+(6,	'légume',	'2024-04-25',	2,	1),
+(7,	'Psg',	'2024-04-25',	3,	1),
+(8,	'Montagne',	'2024-04-25',	4,	1),
+(9,	'Foret',	'2024-04-25',	4,	1),
+(10,	'Cinema Français ',	'2024-04-25',	5,	1),
+(11,	'Ryan Gosling',	'2024-04-25',	5,	1);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -54,4 +72,4 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `isAdmin`) VALUES
 (1,	'admin',	'admin@gmail.com',	'admin',	1);
 
--- 2024-04-22 11:02:47
+-- 2024-04-25 19:18:35
