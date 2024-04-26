@@ -20,6 +20,9 @@
         <v-btn v-if="!userStore.userEmail">
           <NuxtLink to="/connexion" class="boutonnav">Connexion</NuxtLink>
         </v-btn>
+        <v-btn v-if="isAdmin">
+          <NuxtLink to="/admin" class="boutonnav">Admin</NuxtLink>
+        </v-btn>
         <v-btn v-if="userStore.userEmail" @click="logout">
           Deconnexion
         </v-btn>
@@ -30,20 +33,25 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useUserStore } from '../store/user';
 
 export default {
-  setup() {
+  async setup() {
     const userStore = useUserStore();
+    const isAdmin = ref(false); // use a ref to make it reactive
+
+    // fetch the admin status when the component is created
+    isAdmin.value = await userStore.getAdmin();
 
     const logout = () => {
       userStore.logout();
-
     };
 
     return {
       userStore,
       logout,
+      isAdmin, // make sure to return it here
     };
   },
 };
