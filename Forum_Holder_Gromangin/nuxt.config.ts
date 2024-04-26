@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   modules: [
+    '@sidebase/nuxt-session',
     "nuxt-server-utils",
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
