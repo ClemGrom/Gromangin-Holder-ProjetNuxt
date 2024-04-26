@@ -2,7 +2,10 @@ import { defineStore } from "pinia";
 import bcrypt from "bcryptjs";
 import { NuxtLink } from "#build/components";
 export const useUserStore = defineStore("userStore", {
-  state: () => ({}),
+  state: () => ({
+    userEmail: '', 
+
+  }),
   actions: {
     async registerUser(
       name: string,
@@ -43,12 +46,12 @@ export const useUserStore = defineStore("userStore", {
       });
       console.log("User registered");
     },
-    async loginUser(email: string, password: string) {
-      if (!email || !password) {
+    async loginUser(name: string, password: string) {
+      if (!name || !password) {
         return;
       }
       const result = await fetch(
-        `http://localhost:3000/api/users?email=${email}`
+        `http://localhost:3000/api/users?name=${name}`
       ).then((res) => res.json());
       if (result.length === 0) {
         return;
@@ -57,8 +60,9 @@ export const useUserStore = defineStore("userStore", {
       bcrypt.compare(
         password,
         result.users[0].password,
-        function (err: any, res: any) {
+        (err: any, res: any) => {
           if (res) {
+            this.userEmail = result.users[0].email; 
             return new Promise((resolve, reject) => {
               console.log("User logged in");
               navigateTo("/").then(resolve).catch(reject);
@@ -69,5 +73,34 @@ export const useUserStore = defineStore("userStore", {
         }
       );
     },
+    logout() {
+      this.userEmail = '';
+    },
+    async getAdmin() {
+      if (!this.userEmail) {
+        return;
+      }
+      const result = await fetch(
+        `http://localhost:3000/api/users?email=${this.userEmail}`
+      ).then((res) => res.json());
+      if (result.length === 0) {
+        return;
+      }
+      console.log(result)
+      return result.users[0].isAdmin;
+    },
+    async getUserId() {
+      if (!this.userEmail) {
+        return;
+      }
+      const result = await fetch(
+        `http://localhost:3000/api/users?email=${this.userEmail}`
+      ).then((res) => res.json());
+      if (result.length === 0) {
+        return;
+      }
+      console.log(result)
+      return result.users[0].id;
+    }
   },
 });
