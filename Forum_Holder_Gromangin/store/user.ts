@@ -56,12 +56,20 @@ export const useUserStore = defineStore("userStore", {
         return;
       }
       console.log(result)
+    
+      // Find the user with the provided email
+      const user = result.users.find((user: any) => user.email === email);
+      if (!user) {
+        console.log("User not found");
+        return;
+      }
+    
       bcrypt.compare(
         password,
-        result.users[0].password,
+        user.password,
         (err: any, res: any) => {
           if (res) {
-            this.userEmail = result.users[0].email; 
+            this.userEmail = user.email;
             return new Promise((resolve, reject) => {
               console.log("User logged in");
               navigateTo("/").then(resolve).catch(reject);
