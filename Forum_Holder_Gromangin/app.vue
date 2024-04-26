@@ -31,28 +31,24 @@
     </v-app>
   </NuxtLayout>
 </template>
-
 <script>
 import { ref } from 'vue';
 import { useUserStore } from '../store/user';
 
 export default {
-  async setup() {
-    const userStore = useUserStore();
-    const isAdmin = ref(false); // use a ref to make it reactive
-
-    // fetch the admin status when the component is created
-    isAdmin.value = await userStore.getAdmin();
-
-    const logout = () => {
-      userStore.logout();
-    };
-
+  data() {
     return {
-      userStore,
-      logout,
-      isAdmin, // make sure to return it here
+      isAdmin: 0,
+      userStore: useUserStore(),  // Initialize userStore here
     };
+  },
+  async created() {
+    this.isAdmin = await this.userStore.getAdmin();
+  },
+  methods: {
+    logout() {
+      this.userStore.logout();
+    },
   },
 };
 </script>
