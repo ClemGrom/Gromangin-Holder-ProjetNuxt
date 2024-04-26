@@ -31,15 +31,16 @@
     </v-app>
   </NuxtLayout>
 </template>
+
 <script>
-import { ref } from 'vue';
+
 import { useUserStore } from '../store/user';
 
 export default {
   data() {
     return {
       isAdmin: 0,
-      userStore: useUserStore(),  // Initialize userStore here
+      userStore: useUserStore(),
     };
   },
   async created() {

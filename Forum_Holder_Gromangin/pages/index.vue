@@ -84,14 +84,14 @@ export default {
           throw new Error('Erreur lors de la création du forum');
         }
 
-        // Vérifiez si la réponse est vide
+        // Vérifie si la réponse est vide
         const text = await response.text();
         if (text) {
           const data = JSON.parse(text);
           console.log(data);
         }
 
-        // Rechargez les forums après avoir ajouté un nouveau forum
+        // Recharge les forums après avoir ajouté un nouveau forum
         this.loadForums();
       } catch (error) {
         this.error = 'Erreur lors de la création du forum';

@@ -172,6 +172,5 @@ export default {
 
 .text-primary {
   color: #0D47A1;
-  /* Change this to your preferred color */
 }
 </style>

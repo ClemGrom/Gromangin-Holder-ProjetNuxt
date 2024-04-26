@@ -1,4 +1,7 @@
 version: '3.1'
+networks:
+  projet.net:
+    driver: bridge
 
 services:
   db:
@@ -13,26 +16,25 @@ services:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - ./db/data.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - projet.net
 
   adminer:
     image: adminer
     ports:
       - 8080:8080
-  # nuxt:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/src
-  #     - ./node_modules:/src/node_modules
+    networks:
+      - projet.net
 
   # nuxt:
-  #   image: nuxtjs/nuxt
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./:/app
+  #   build:
+  #     dockerfile: Dockerfile
+  #   command: ["node", "/app/.output/server/index.mjs"]
   #   working_dir: /app
-  #   command: sh -c "npm install --include=dev && npm run dev"
+  #   networks:
+  #     - projet.net
+  #   environment:
+  #     - NODE_ENV=production
+  #     - PORT=3000
+  #   ports:
+  #     - 3000:3000
