@@ -70,6 +70,8 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 INSERT INTO `user` (`id`, `name`, `email`, `password`, `isAdmin`) VALUES
-(1,	'admin',	'admin@gmail.com',	'admin',	1);
+(1,	'admin',	'admin@gmail.com',	'$2a$10$rUZIZnqGSL7tBsR5r0qLfuLDdPuDoRVkzaWox5gpe6jgqHeXs.le6',	1),
+(2,	'machin',	'machin@gmail.com',	'$2a$10$CBmmx6R5zQpq/x6euFlfv.ob10ZamWgXgGFU8Te7iuiYeuFEoSe4m',	0);
+
 
 -- 2024-04-25 19:18:35
