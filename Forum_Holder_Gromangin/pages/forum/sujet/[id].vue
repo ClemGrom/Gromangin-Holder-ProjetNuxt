@@ -16,8 +16,8 @@
   </v-card-text>
   <v-card-subtitle class="caption grey--text">{{ new Date(message.date).toLocaleDateString('fr-FR')
     }}</v-card-subtitle>
-  <v-btn color="primary" @click="showInput(message.id)">Modifier</v-btn>
-  <v-btn color="error" v-if="isAdmin" @click="deleteMessage(message.id)" class="ml-3">Supprimer</v-btn></div>
+<v-btn color="primary" v-if="message.author_id === userId" @click="showInput(message.id)">Modifier</v-btn> 
+ <v-btn color="error" v-if="isAdmin" @click="deleteMessage(message.id)" class="ml-3">Supprimer</v-btn></div>
       </v-card>
       <v-card v-if="messages.length === 0" class="p-4 mb-4" color="blue-lighten-5">
         <v-card-title class="headline font-weight-bold">Aucun message dans ce forum</v-card-title>
@@ -51,6 +51,8 @@ export default {
       content: '',
       websocket: null,
       isAdmin: 0,
+      userId: null,
+
     };
   },
   setup() {
@@ -63,11 +65,12 @@ export default {
     };
   },
   async created() {
-    const userAdmin = useUserStore();
-    this.isAdmin = await userAdmin.getAdmin();
+    const userStore = useUserStore();
+  this.isAdmin = await userStore.getAdmin();
+  this.userId = await userStore.getUserId(); // Ajoutez cette ligne
 
-    this.setupWebSocket();
-    this.loadMessages();
+  this.setupWebSocket();
+  this.loadMessages();
   },
   methods: {
     setupWebSocket() {
