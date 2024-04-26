@@ -3,7 +3,7 @@
 
     <v-row justify="center">
       <v-col>
-        <div class="d-flex py-2" color="grey lighten-3" v-if="isAdmin">
+        <div class="d-flex py-2" color="grey lighten-3" v-if="userStore.userEmail">
           <v-text-field v-model="name" label="Nom du sujet" outlined dense color="blue-grey darken-1"></v-text-field>
           <v-text-field v-model="firstmsg" label="Premier message" outlined dense
             color="blue-grey darken-1"></v-text-field>
@@ -47,6 +47,12 @@ export default {
       page: 1,
       sujetsPerPage: 20,
       isAdmin: 0,
+    };
+  },
+  setup() {
+    const userStore = useUserStore();
+    return {
+      userStore,
     };
   },
 
