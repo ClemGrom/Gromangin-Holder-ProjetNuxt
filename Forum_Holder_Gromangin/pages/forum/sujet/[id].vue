@@ -1,9 +1,10 @@
+
 <template>
   <div>
     <v-container>
       <v-card v-for="message in messages" :key="message.id" class="p-4 mb-4" color="blue-lighten-5">
         <div class="d-flex  align-center justify-space-between pa-3">
-  <v-card-title class="headline font-weight-bold">{{ message.author_id }}</v-card-title>
+  <v-card-title class="headline font-weight-bold">{{ message.name }}</v-card-title>
   <v-card-text class="body-1">
     <template v-if="inputMessageId === message.id">
       <v-text-field v-model="newMessageContent" @keyup.enter="modifierMessage" filled
@@ -29,6 +30,9 @@
     <v-text-field v-model="content" @keyup.enter="sendMessage" filled label="Tapez votre message ici..."
       class="mr-2 flex-grow-1"></v-text-field>
     <v-btn color="primary" @click="sendMessage">Envoyer</v-btn>
+  </div>
+   <div v-else>
+    Vous devez être connecté pour écrire un message
   </div>
     </v-container>
   </div>
@@ -92,7 +96,7 @@ export default {
     async loadMessages() {
       const sujetId = this.$route.params.id;
       try {
-        const response = await fetch(`http://localhost:3000/api/messages?sujet_id=${sujetId}`);
+        const response = await fetch(`http://localhost:3000/api/messagesuser?sujet_id=${sujetId}`);
         const data = await response.json();
         console.log('Received data from API:', data);
         this.messages = data.messages;
@@ -191,6 +195,18 @@ async sendMessage() {
         this.newMessageContent = message.content;
       }
     },
+
+    async getNameUserMessage(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/messagesuser?sujet_id=${id}`);
+        const data = await response.json();
+        return data.user.name;
+      } catch (error) {
+        console.error('Error loading user:', error);
+        this.error = error.message;
+      }
+    },
   },
+
 };
 </script>

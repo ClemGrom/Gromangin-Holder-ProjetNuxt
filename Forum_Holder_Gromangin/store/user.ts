@@ -4,7 +4,6 @@ import { NuxtLink } from "#build/components";
 export const useUserStore = defineStore("userStore", {
   state: () => ({
     userEmail: '', 
-
   }),
   actions: {
     async registerUser(
@@ -46,12 +45,12 @@ export const useUserStore = defineStore("userStore", {
       });
       console.log("User registered");
     },
-    async loginUser(name: string, password: string) {
-      if (!name || !password) {
+    async loginUser(email: string, password: string) {
+      if (!email || !password) {
         return;
       }
       const result = await fetch(
-        `http://localhost:3000/api/users?name=${name}`
+        `http://localhost:3000/api/users?email=${email}`
       ).then((res) => res.json());
       if (result.length === 0) {
         return;
