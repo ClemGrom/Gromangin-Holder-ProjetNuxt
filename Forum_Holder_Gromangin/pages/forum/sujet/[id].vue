@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-card v-for="message in messages" :key="message.id" class="p-4 mb-4" color="blue-lighten-5">
+      <v-card v-for="message in paginatedMessages" :key="message.id" class="p-4 mb-4" color="blue-lighten-5">
         <div class="d-flex  align-center justify-space-between pa-3">
           <v-card-title class="headline font-weight-bold">{{ message.name }}</v-card-title>
           <v-card-text class="body-1">
@@ -33,6 +33,8 @@
       <div v-else>
         Vous devez être connecté pour écrire un message
       </div>
+      <v-pagination v-model="page" :length="Math.ceil(messages.length / messagesPerPage)"
+        color="primary"></v-pagination>
     </v-container>
   </div>
 </template>
@@ -51,6 +53,8 @@ export default {
       websocket: null,
       isAdmin: 0,
       userId: null,
+      page: 1,
+      messagesPerPage: 20,
 
     };
   },
@@ -63,6 +67,14 @@ export default {
 
     };
   },
+  computed: {
+    paginatedMessages() {
+      const start = (this.page - 1) * this.messagesPerPage;
+      const end = start + this.messagesPerPage;
+      return this.messages.slice(start, end);
+    },
+  },
+
   async created() {
     const userStore = useUserStore();
     this.isAdmin = await userStore.getAdmin();
@@ -158,6 +170,10 @@ export default {
 
         // Recharger les messages après l'envoi
         await this.loadMessages();
+
+        // Rediriger vers la dernière page
+        const totalPages = Math.ceil((this.messages.length + 1) / this.messagesPerPage);
+        this.page = totalPages;
 
         window.scrollTo(0, document.body.scrollHeight);
         this.content = '';
