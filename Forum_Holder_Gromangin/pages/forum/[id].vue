@@ -31,6 +31,9 @@
       class="mr-2 flex-grow-1"></v-text-field>
     <v-btn color="primary" @click="sendMessage">Envoyer</v-btn>
   </div>
+   <div v-else>
+    Vous devez être connecté pour écrire un message
+  </div>
     </v-container>
   </div>
 </template>
