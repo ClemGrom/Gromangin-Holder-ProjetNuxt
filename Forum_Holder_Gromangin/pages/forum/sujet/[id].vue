@@ -1,23 +1,23 @@
-
 <template>
   <div>
     <v-container>
       <v-card v-for="message in messages" :key="message.id" class="p-4 mb-4" color="blue-lighten-5">
         <div class="d-flex  align-center justify-space-between pa-3">
-  <v-card-title class="headline font-weight-bold">{{ message.name }}</v-card-title>
-  <v-card-text class="body-1">
-    <template v-if="inputMessageId === message.id">
-      <v-text-field v-model="newMessageContent" @keyup.enter="modifierMessage" filled
-        label="Modifier le message"></v-text-field>
-    </template>
-    <template v-else>
-      {{ message.content }}
-    </template>
-  </v-card-text>
-  <v-card-subtitle class="caption grey--text">{{ new Date(message.date).toLocaleDateString('fr-FR')
-    }}</v-card-subtitle>
-<v-btn color="primary" v-if="message.author_id === userId" @click="showInput(message.id)">Modifier</v-btn> 
- <v-btn color="error" v-if="isAdmin" @click="deleteMessage(message.id)" class="ml-3">Supprimer</v-btn></div>
+          <v-card-title class="headline font-weight-bold">{{ message.name }}</v-card-title>
+          <v-card-text class="body-1">
+            <template v-if="inputMessageId === message.id">
+              <v-text-field v-model="newMessageContent" @keyup.enter="modifierMessage" filled
+                label="Modifier le message"></v-text-field>
+            </template>
+            <template v-else>
+              {{ message.content }}
+            </template>
+          </v-card-text>
+          <v-card-subtitle class="caption grey--text">{{ new Date(message.date).toLocaleDateString('fr-FR')
+            }}</v-card-subtitle>
+          <v-btn color="primary" v-if="message.author_id === userId" @click="showInput(message.id)">Modifier</v-btn>
+          <v-btn color="error" v-if="isAdmin" @click="deleteMessage(message.id)" class="ml-3">Supprimer</v-btn>
+        </div>
       </v-card>
       <v-card v-if="messages.length === 0" class="p-4 mb-4" color="blue-lighten-5">
         <v-card-title class="headline font-weight-bold">Aucun message dans ce forum</v-card-title>
@@ -25,15 +25,14 @@
       <div style="height: 60px;"></div>
 
       <div class="d-flex align-center justify-space-between pa-3"
-    style="position: fixed; width: 100%; max-width: inherit; bottom: 0; "
-    v-if="userStore.userEmail">
-    <v-text-field v-model="content" @keyup.enter="sendMessage" filled label="Tapez votre message ici..."
-      class="mr-2 flex-grow-1"></v-text-field>
-    <v-btn color="primary" @click="sendMessage">Envoyer</v-btn>
-  </div>
-   <div v-else>
-    Vous devez être connecté pour écrire un message
-  </div>
+        style="position: fixed; width: 100%; max-width: inherit; bottom: 0; " v-if="userStore.userEmail">
+        <v-text-field v-model="content" @keyup.enter="sendMessage" filled label="Tapez votre message ici..."
+          class="mr-2 flex-grow-1"></v-text-field>
+        <v-btn color="primary" @click="sendMessage">Envoyer</v-btn>
+      </div>
+      <div v-else>
+        Vous devez être connecté pour écrire un message
+      </div>
     </v-container>
   </div>
 </template>
@@ -60,17 +59,17 @@ export default {
 
     return {
       userStore,
-      
-   
+
+
     };
   },
   async created() {
     const userStore = useUserStore();
-  this.isAdmin = await userStore.getAdmin();
-  this.userId = await userStore.getUserId(); // Ajoutez cette ligne
+    this.isAdmin = await userStore.getAdmin();
+    this.userId = await userStore.getUserId(); // Ajoutez cette ligne
 
-  this.setupWebSocket();
-  this.loadMessages();
+    this.setupWebSocket();
+    this.loadMessages();
   },
   methods: {
     setupWebSocket() {
@@ -109,64 +108,64 @@ export default {
       }
     },
     async deleteMessage(messageId) {
-  try {
-    const response = await fetch(`http://localhost:3000/api/messages`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: messageId }),
-    });
+      try {
+        const response = await fetch(`http://localhost:3000/api/messages`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: messageId }),
+        });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    // Recharger les messages après la suppression
-    await this.loadMessages();
-  } catch (error) {
-    console.error('Error deleting message:', error);
-    this.error = error.message;
-  }
-},
-async sendMessage() {
-  if (this.content.trim() === '') return;
-  const userId= useUserStore();
-    const id = await userId.getUserId();
+        // Recharger les messages après la suppression
+        await this.loadMessages();
+      } catch (error) {
+        console.error('Error deleting message:', error);
+        this.error = error.message;
+      }
+    },
+    async sendMessage() {
+      if (this.content.trim() === '') return;
+      const userId = useUserStore();
+      const id = await userId.getUserId();
 
-  const messageData = {
-    author_id: id,
-    content: this.content,
-    sujet_id: this.$route.params.id,
-  };
+      const messageData = {
+        author_id: id,
+        content: this.content,
+        sujet_id: this.$route.params.id,
+      };
 
-  try {
-    // Envoyer le message via WebSocket
-    this.websocket.send(JSON.stringify(messageData));
+      try {
+        // Envoyer le message via WebSocket
+        this.websocket.send(JSON.stringify(messageData));
 
-    // Envoyer une requête POST à l'API pour stocker le message dans la base de données
-    const response = await fetch('http://localhost:3000/api/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(messageData),
-    });
+        // Envoyer une requête POST à l'API pour stocker le message dans la base de données
+        const response = await fetch('http://localhost:3000/api/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(messageData),
+        });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    // Recharger les messages après l'envoi
-    await this.loadMessages();
+        // Recharger les messages après l'envoi
+        await this.loadMessages();
 
-    window.scrollTo(0, document.body.scrollHeight);
-    this.content = '';
-  } catch (error) {
-    console.error('Error sending message:', error);
-    this.error = error.message;
-  }
-},
+        window.scrollTo(0, document.body.scrollHeight);
+        this.content = '';
+      } catch (error) {
+        console.error('Error sending message:', error);
+        this.error = error.message;
+      }
+    },
     async modifierMessage() {
       const messageData = {
         id: this.inputMessageId,
