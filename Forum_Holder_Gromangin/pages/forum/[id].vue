@@ -114,8 +114,12 @@ export default {
     async addFirstmsg() {
       const forumId = this.$route.params.id;
       const lastSujetId = await this.getLastSujetId();
+
+      const userStore = useUserStore();
+      const userId = await userStore.getUserId();
+
       const messageData = {
-        user_id: '1',
+        author_id: userId,
         content: this.firstmsg,
         sujet_id: parseInt(lastSujetId),
       };
@@ -130,7 +134,6 @@ export default {
         this.firstmsg = '';
         this.loadForum();
       } catch (error) {
-
         this.error = 'Erreur lors de l\'ajout du sujet';
         console.error('Erreur :', error);
       }
