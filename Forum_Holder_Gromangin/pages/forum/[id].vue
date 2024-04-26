@@ -3,12 +3,11 @@
    
       <v-row justify="center" >
           <v-col >
-          
-            <div class="d-flex py-2" color="grey lighten-3">
+            <div class="d-flex py-2" color="grey lighten-3" v-if="isAdmin">
     <v-text-field v-model="name" label="Nom du sujet" outlined dense color="blue-grey darken-1"></v-text-field>
     <v-text-field v-model="firstmsg" label="Premier message" outlined dense color="blue-grey darken-1"></v-text-field>
     <v-btn small color="blue-grey darken-1" @click="addSujetetMsg">Ajouter un sujet</v-btn>
-</div>
+  </div>
 
              <v-card class="mb-2 px-4 py-2">
                 <h1 class="text-center text-primary">Sujets</h1>
@@ -43,6 +42,8 @@
   </v-container>
 </template>
 <script>
+ import { useUserStore} from '../store/user';
+
 export default {
   data() {
     return {
@@ -53,8 +54,10 @@ export default {
       error: '',
       page: 1,
       sujetsPerPage: 20,
+      isAdmin: 0,
     };
   },
+  
   computed: {
     paginatedSujets() {
       const start = (this.page - 1) * this.sujetsPerPage;
@@ -62,7 +65,10 @@ export default {
       return this.sujets.slice(start, end);
     },
   },
-  created() {
+  async created() {
+    const userStore = useUserStore();
+    this.isAdmin = await userStore.getAdmin();
+
     this.loadForum();
   },
   methods: {
