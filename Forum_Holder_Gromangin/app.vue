@@ -18,17 +18,40 @@
           <NuxtLink to="/test" class="boutonnav">Test</NuxtLink>
         </v-btn>
       
-        <v-btn>
-          <NuxtLink to="/inscription" class="boutonnav">Inscription</NuxtLink>
-        </v-btn>
-        <v-btn>
-          <NuxtLink to="/connexion" class="boutonnav">Connexion</NuxtLink>
-        </v-btn>
+        <v-btn v-if="!userStore.userEmail">
+    <NuxtLink to="/inscription" class="boutonnav">Inscription</NuxtLink>
+  </v-btn>
+  <v-btn v-if="!userStore.userEmail">
+    <NuxtLink to="/connexion" class="boutonnav">Connexion</NuxtLink>
+  </v-btn>
+  <v-btn v-if="userStore.userEmail" @click="logout">
+    Deconnexion
+  </v-btn>
       </v-toolbar>
       <NuxtPage />
     </v-app>
   </NuxtLayout>
 </template>
+
+<script>
+import { useUserStore } from '../store/user';
+
+export default {
+  setup() {
+    const userStore = useUserStore();
+
+    const logout = () => {
+      userStore.logout();
+      
+    };
+
+    return {
+      userStore,
+      logout,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .boutonnav {
